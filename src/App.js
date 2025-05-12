@@ -4,13 +4,19 @@ import axios from 'axios';
 function App() {
   // Example of using axios to fetch data
   React.useEffect(() => {
-    axios.get('https://api.restful-api.dev/objects')
+    fetch('https://api.restful-api.dev/objects')
       .then(response => {
-        console.log(response.data);
-        const value = response.data[0].name;
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+      })
+      .then(data => {
+      console.log(data);
+      const value = data[0].name;
       })
       .catch(error => {
-        console.error('Error fetching data:', error);
+      console.error('Error fetching data:', error);
       });
   }, []);
   const value = 'World';
